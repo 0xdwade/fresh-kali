@@ -19,13 +19,13 @@ check_root() {
 
 # Function to show a progress bar
 show_progress() {
-    for ((k = 0; k <= 10 ; k++)); do
+    for ((k = 0; k <= 10; k++)); do
         echo -n "[ "
-        for ((i = 0 ; i <= k; i++)); do 
-            echo -ne "${GREEN}###${NC}"; 
+        for ((i = 0; i <= k; i++)); do
+            echo -ne "${GREEN}###${NC}"
         done
-        for ((j = i ; j <= 10 ; j++)); do 
-            echo -n "   "; 
+        for ((j = i; j <= 10; j++)); do
+            echo -n "   "
         done
         v=$((k * 10))
         echo -n " ] $v %"$'\r'
@@ -44,11 +44,11 @@ sleep 5
 
 # Fix kali mirror - issue that has popped up randomly
 sudo rm /etc/apt/sources.list
-echo "deb http://kali.download/kali kali-rolling main contrib non-free non-free-firmware" > /etc/apt/sources.list
+echo "deb http://kali.download/kali kali-rolling main contrib non-free non-free-firmware" >/etc/apt/sources.list
 
 # Update and upgrade the system
 echo -e "${YELLOW}\nUpdating and upgrading..${NC}"
-sudo apt update &> /dev/null && sudo apt upgrade -y --fix-missing &> /dev/null &
+sudo apt update &>/dev/null && sudo apt upgrade -y --fix-missing &>/dev/null &
 wait
 show_progress $!
 if [ $? -eq 0 ]; then
@@ -64,7 +64,7 @@ if [ -f pimpmykali/pimpmykali.sh ]; then
     sleep 2
 else
     echo -e "${YELLOW}\nDownloading pimpmykali...${NC}"
-    git clone https://github.com/Dewalt-arch/pimpmykali.git &> /dev/null &
+    git clone https://github.com/Dewalt-arch/pimpmykali.git &>/dev/null &
     wait
 
     if [ $? -eq 0 ]; then
@@ -72,7 +72,7 @@ else
         chmod +x pimpmykali/pimpmykali.sh
 
         # Interactive prompt using expect
-        expect << EOF
+        expect <<EOF
         wait
         set timeout -1
         spawn pimpmykali/pimpmykali.sh
@@ -100,26 +100,26 @@ sudo -u "$SUDO_USER" zsh -c "source /home/$SUDO_USER/.zshrc"
 
 # Install additional tools
 if [ -f go/bin/pdtm ]; then
- echo -e "${RED}\nPD tool manager already installed!${NC}"
+    echo -e "${RED}\nPD tool manager already installed!${NC}"
     exit 1
-    else
-	echo -e "${BLUE}\nInstalling PD tool manager..${NC}"
-	sudo -u "$SUDO_USER" go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}PD tool manager download complete!${NC}"
-    sudo -u "$SUDO_USER" /home/$SUDO_USER/go/bin/pdtm
-    sudo -u "$SUDO_USER" zsh -c "source /home/$SUDO_USER/.zshrc"
-    sudo -u "$SUDO_USER" /home/$SUDO_USER/go/bin/pdtm --install-all
+else
+    echo -e "${BLUE}\nInstalling PD tool manager..${NC}"
+    sudo -u "$SUDO_USER" go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest
     if [ $? -eq 0 ]; then
-        echo -e "${BLUE}\nPD tool manager installation complete!${NC}"
+        echo -e "${GREEN}PD tool manager download complete!${NC}"
+        sudo -u "$SUDO_USER" /home/$SUDO_USER/go/bin/pdtm
+        sudo -u "$SUDO_USER" zsh -c "source /home/$SUDO_USER/.zshrc"
+        sudo -u "$SUDO_USER" /home/$SUDO_USER/go/bin/pdtm --install-all
+        if [ $? -eq 0 ]; then
+            echo -e "${BLUE}\nPD tool manager installation complete!${NC}"
         else
-        echo -e "${RED}\nSomething went wrong during PD tool manager!${NC}"
+            echo -e "${RED}\nSomething went wrong during PD tool manager!${NC}"
+            exit 1
+        fi
+    else
+        echo -e "${BLUE}\nPD tool manager download failed${NC}"
         exit 1
     fi
-else
-    echo -e "${BLUE}\nPD tool manager download failed${NC}"
-    exit 1
-fi
 fi
 
 echo -e "${RED}\nSetup complete!${NC}"
