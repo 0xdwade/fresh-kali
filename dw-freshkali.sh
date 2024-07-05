@@ -17,23 +17,6 @@ check_root() {
     fi
 }
 
-# Function to show a progress bar
-show_progress() {
-    for ((k = 0; k <= 10; k++)); do
-        echo -n "[ "
-        for ((i = 0; i <= k; i++)); do
-            echo -ne "${GREEN}###${NC}"
-        done
-        for ((j = i; j <= 10; j++)); do
-            echo -n "   "
-        done
-        v=$((k * 10))
-        echo -n " ] $v %"$'\r'
-        sleep 0.4
-    done
-    echo
-}
-
 # Check for root privileges
 check_root
 
@@ -48,11 +31,11 @@ echo "deb http://kali.download/kali kali-rolling main contrib non-free non-free-
 
 # Update and upgrade the system
 echo -e "${YELLOW}\nUpdating and upgrading..${NC}"
-sudo apt update &>/dev/null && sudo apt upgrade -y --fix-missing &>/dev/null &
+sudo apt update &>/dev/null && sudo apt upgrade -y --fix-missing
 wait
-show_progress $!
+
 if [ $? -eq 0 ]; then
-    echo -e "${YELLOW}\nKali update successful${NC}"
+    echo -e "${GREEN}\nKali update successful${NC}"
 else
     echo -e "${RED}\nKali update failed${NC}"
     exit 1
@@ -103,7 +86,7 @@ if [ -f go/bin/pdtm ]; then
     echo -e "${RED}\nPD tool manager already installed!${NC}"
     exit 1
 else
-    echo -e "${BLUE}\nInstalling PD tool manager..${NC}"
+    echo -e "${YELLOW}\nInstalling PD tool manager..${NC}"
     sudo -u "$SUDO_USER" go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}PD tool manager download complete!${NC}"
@@ -111,15 +94,15 @@ else
         sudo -u "$SUDO_USER" zsh -c "source /home/$SUDO_USER/.zshrc"
         sudo -u "$SUDO_USER" /home/$SUDO_USER/go/bin/pdtm --install-all
         if [ $? -eq 0 ]; then
-            echo -e "${BLUE}\nPD tool manager installation complete!${NC}"
+            echo -e "${GREEN}\nPD tool manager installation complete!${NC}"
         else
             echo -e "${RED}\nSomething went wrong during PD tool manager!${NC}"
             exit 1
         fi
     else
-        echo -e "${BLUE}\nPD tool manager download failed${NC}"
+        echo -e "${RED}\nPD tool manager download failed${NC}"
         exit 1
     fi
 fi
 
-echo -e "${RED}\nSetup complete!${NC}"
+echo -e "${GREEN}\nSetup complete!${NC}"
