@@ -30,7 +30,9 @@ sudo rm /etc/apt/sources.list
 echo "deb http://kali.download/kali kali-rolling main contrib non-free non-free-firmware" >/etc/apt/sources.list
 
 # Update and upgrade the system
+# libpcap-dev needed for PD naabu
 echo -e "${YELLOW}\nUpdating and upgrading..${NC}"
+sudo apt install libpcap-dev -y
 sudo apt update &>/dev/null && sudo apt upgrade -y --fix-missing
 wait
 
@@ -78,11 +80,8 @@ EOF
     fi
 fi
 
-# Updating Users .zshrc
-sudo -u "$SUDO_USER" zsh -c "source /home/$SUDO_USER/.zshrc"
-
 # Install additional tools
-if [ -f go/bin/pdtm ]; then
+if [ -f /home/$SUDO_USER/go/bin/pdtm ]; then
     echo -e "${RED}\nPD tool manager already installed!${NC}"
     exit 1
 else
@@ -91,7 +90,7 @@ else
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}PD tool manager download complete!${NC}"
         sudo -u "$SUDO_USER" /home/$SUDO_USER/go/bin/pdtm
-        sudo -u "$SUDO_USER" zsh -c "source /home/$SUDO_USER/.zshrc"
+        sudo -iu "$SUDO_USER" zsh -c "source ~/.zshrc"
         sudo -u "$SUDO_USER" /home/$SUDO_USER/go/bin/pdtm --install-all
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}\nPD tool manager installation complete!${NC}"
