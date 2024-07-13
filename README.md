@@ -9,15 +9,10 @@ git clone https://github.com/thedustywade/fresh-kali.git
 ```
 
 
-
 ```sh
-cd fresh-kali
-```
+cd fresh-kali/
 
-```sh
 chmod +x freshkali.sh
-```
 
-```sh
-sh sudo ./freshkali.sh
+sudo ./freshkali.sh
 ```
