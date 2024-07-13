@@ -7,7 +7,7 @@ Feel free to update this script as you like. If you come across any issues let m
 > This script must be run with sudo
 
 ```sh
-git clone https://github.com/thedustywade/fresh-kali.git
+git clone https://github.com/0xdwade/fresh-kali.git
 ```
 
 
