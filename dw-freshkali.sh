@@ -32,7 +32,7 @@ echo "deb http://kali.download/kali kali-rolling main contrib non-free non-free-
 # Update and upgrade the system
 # libpcap-dev needed for PD naabu
 echo -e "${YELLOW}\nUpdating and upgrading..${NC}"
-sudo apt install libpcap-dev -y
+#sudo apt install libpcap-dev -y
 sudo apt update &>/dev/null && sudo apt upgrade -y --fix-missing
 wait
 
@@ -45,6 +45,8 @@ fi
 
 # Install docker.io and docker-compose
 sudo apt install docker.io docker-compose -y
+wait
+
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}\nDocker install successful${NC}"
 else
