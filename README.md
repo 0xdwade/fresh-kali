@@ -4,6 +4,8 @@ Feel free to update this script as you like. If you come across any issues let m
 
 ## Download and Usage
 
+> This script must be run with sudo
+
 ```sh
 git clone https://github.com/thedustywade/fresh-kali.git
 ```
@@ -11,8 +13,7 @@ git clone https://github.com/thedustywade/fresh-kali.git
 
 ```sh
 cd fresh-kali/
-
 chmod +x freshkali.sh
-
 sudo ./freshkali.sh
 ```
+Sit back and relax! There are some situations you might have to make some selections with update / upgrade.
