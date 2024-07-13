@@ -43,6 +43,15 @@ else
     exit 1
 fi
 
+# Install docker.io and docker-compose
+sudo apt install docker.io docker-compose -y
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}\nDocker install successful${NC}"
+else
+    echo -e "${RED}\nDocker install failed${NC}"
+    exit 1
+fi
+
 # Install pimpmykali if not already installed
 if [ -f pimpmykali/pimpmykali.sh ]; then
     echo -e "${RED}\nPimpmykali already installed!${NC}"
@@ -102,6 +111,17 @@ else
         echo -e "${RED}\nPD tool manager download failed${NC}"
         exit 1
     fi
+fi
+
+# Download bloodhound docker-compose.yml
+sudo mkdir /opt/Bloodhound
+cd /opt/Bloodhound
+sudo curl -Lo docker-compose.yml https://ghst.ly/getbhce
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}\nBloodhound download successful${NC}"
+else
+    echo -e "${RED}\nBloodhound download failed${NC}"
+    exit 1
 fi
 
 echo -e "${GREEN}\nSetup complete!${NC}"
